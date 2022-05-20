@@ -19,7 +19,7 @@ let generateNginxConfig = (siteIpAddress,site,  port) => {
     server_name ${site} www.${site};
     ssl_certificate /etc/letsencrypt/live/www.${site}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/www.${site}/privkey.pem;
-    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
     ssl_ciphers EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
     ssl_prefer_server_ciphers On;
     ssl_session_cache shared:SSL:128m;
@@ -33,7 +33,7 @@ let generateNginxConfig = (siteIpAddress,site,  port) => {
         proxy_pass http://localhost:${port};
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_http_version 1.3;
+        proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }

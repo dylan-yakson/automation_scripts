@@ -8,6 +8,7 @@ const { exec } = require('child_process');
 // Public key authentication and non-interactive (exec) command execution
 // ***********************************************************************************
 const Zip = require("adm-zip");
+const {Client} = require('ssh2')
 
 const downloadGitRepo = require("download-git-repo")
 
@@ -75,7 +76,7 @@ let runCommandRemote = (command, conn,callbackfunction=()=>{console.log("Command
             if (err) throw err;
             let skipNext = true;
             const stdinListener = (data) => {
-              console.log("STDIN: ", data.toString())
+              // console.log("STDIN: ", data.toString())
                 skipNext = true;
                 stream.stdin.write(data);
             };
@@ -124,7 +125,7 @@ let runCommandRemoteTesting = (command, conn,callbackfunction=()=>{console.log("
       if (err) throw err;
       let skipNext = true;
       const stdinListener = (data) => {
-        console.log("STDIN: ", data.toString())
+        // console.log("STDIN: ", data.toString())
           skipNext = true;
           stream.stdin.write(data);
       };
@@ -180,6 +181,56 @@ let runInteractiveCommandRemote = (command, conn) => {
             stream.end(`${command}\nexit\n`);
           });
     // }).connect(connectionOptions);
+}
+let spawnShellandRunCommand = (command, sshConfig) => {
+  // conn.on('ready', () => {
+    const conn = new Client();
+    conn.on('ready', () => {
+      return conn.exec(command,{ pty: true }, (err, stream) => {
+        if (err) throw err;
+        let skipNext = true;
+        const stdinListener = (data) => {
+          // console.log("STDIN: ", data.toString())
+            skipNext = true;
+            stream.stdin.write(data);
+        };
+
+        stream.on('close', function() {
+            process.stdin.removeListener("data", stdinListener)
+            conn.end();
+
+        }).stderr.on('data', function(data) {
+          if (skipNext) { return skipNext = false; }
+           process.stdout.write(data);
+        });
+        // skip next stops double printing of input
+        // process.stdin.on("keypress", function(chunk, key) {
+        //   if(key && key.name === "c" && key.ctrl) {
+        //     console.log("Closing Stream");
+        //     process.exit();
+        //   }
+        // });
+        // process.stdin.setRawMode(true)
+        
+        stream.stdout.on("data", (data) => {
+            // if (skipNext) { return skipNext = false; }
+            // console.log("STDOUT: ", data.toString())
+            if(data){
+              process.stdout.write(data);
+            }
+        }).stderr.on('data',function(data){
+            console.log(data);
+            stream.end('ls -l\nexit\n');
+            stream.close();
+            conn.end();
+        })
+        process.stdin.on("data", stdinListener)
+
+      });
+      
+    }).connect(sshConfig)
+
+  // }).connect(connectionOptions);
 }
 let spawnShellRemote = ( conn) => {
     console.log("**************************")
@@ -376,6 +427,6 @@ module.exports = {
     zipFolder,
     pullGitRepo,
     deleteIfExists,
-    createIfNotExists
+    createIfNotExists,
+    spawnShellandRunCommand,
 }
-

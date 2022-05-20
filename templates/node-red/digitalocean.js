@@ -28,6 +28,7 @@ sudo npm uninstall mongodb
 sudo npm uninstall node-red-mongodb
 sudo npm uninstall -g node-red-mongodb 
 sudo npm install mongodb
+sudo npm install bcrypt 
 sudo npm install node-red-node-mongodb --unsafe-perm --save --save-dev
 sudo npm install node-red-node-email --unsafe-perm --save --save-dev
 sudo npm install pdfkit --unsafe-perm --save --save-dev
@@ -68,7 +69,7 @@ sudo pm2 restart 0
                             // Cleanup
                             spawnShellRemote(conn2);
                         }).connect(sshConfig)
-                    },5000); // Wait for 5 seconds so server has time to digest
+                    },10000); // Wait for 5 seconds so server has time to digest
                 }
             });
         }catch(e){

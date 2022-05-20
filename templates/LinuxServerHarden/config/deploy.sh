@@ -843,7 +843,8 @@ setup_step_start "${STEP_TEXT[0]}"
     fi
 
     # Generate a 15 character random password
-    USER_PASS="$(< /dev/urandom tr -cd "[:alnum:]" | head -c 15)" || exit 1
+    USER_PASS="$(< /dev/urandom tr -cd "[:alnum:]" | head -c 25)" || exit 1
+    # USER_PASS="$(< /dev/urandom tr -cd "[:alnum:]" | head -c 15)" || exit 1
     file_log "Generated user password - ${USER_PASS}"
 
     # Create the user and assign the above password

@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo apt-get update -y
 sudo apt-get ugrade -y
 sudo apt-get install net-tools -y
@@ -12,7 +13,8 @@ COMPOSE_PROJECT_NAME = mythic
 DEFAULT_OPERATION_NAME = Peace Above War
 EOF
 
-./install_docker_ubuntu.sh
+# ./install_docker_ubuntu.sh
+./install_docker_debian.sh
 
 ./mythic-cli mythic start
 

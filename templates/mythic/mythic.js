@@ -29,7 +29,7 @@ sudo ./install.sh
                     conn2.on('ready', () => {
                         spawnShellRemote(conn2);
                     }).connect(sshConfig)
-                },20000) // Wait for 20 seconds so server has time to restart
+                },10000) // Wait for 10 seconds so server has time to restart
             });
         }catch(e){
             console.log(e);

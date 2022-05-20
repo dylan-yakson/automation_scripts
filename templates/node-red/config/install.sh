@@ -72,7 +72,7 @@ cd ~
 # sudo tar xvf v3.3.2.tar.gz
 # sudo mv coreruleset-3.3.2/ /etc/nginx/modsec/
 # sudo mv /etc/nginx/modsec/coreruleset-3.3.2/crs-setup.conf.example /etc/nginx/modsec/coreruleset-3.3.2/crs-setup.conf
-CORE_RULESET_RELEASE_VERSION=$(curl -sL https://github.com/coreruleset/coreruleset/releases/ | grep /coreruleset- | grep -m 1 -oE '([0-9]{1,})\.([0-9]{1,})\.([0-9]{1,})'| head -1)
+CORE_RULESET_RELEASE_VERSION="$(curl -sL https://github.com/coreruleset/coreruleset/releases/ | grep /coreruleset- | grep -m 1 -oE '([0-9]{1,})\.([0-9]{1,})\.([0-9]{1,})'| head -1)-rc1"
 CORE_RULESET_RELEASE_URL="https://github.com/coreruleset/coreruleset/archive/v$CORE_RULESET_RELEASE_VERSION.tar.gz" 
 
 sudo wget $CORE_RULESET_RELEASE_URL
@@ -100,9 +100,8 @@ ip4=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 
 
 # Install NPM 
-# curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
-# V14 is the only node version I got this to work on. Need to update this or set definitions based on react project?
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+# curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install gcc g++ make
 sudo apt-get install -y nodejs
 

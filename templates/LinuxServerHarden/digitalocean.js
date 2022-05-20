@@ -14,7 +14,7 @@ const hardenServer = (sshConfig, username, masterKeyPath, encryptedKeyPath) => {
     let commands = `
 sudo chmod +x ./deploy.sh 
 sudo ./deploy.sh -u ${username}
-tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
+sudo tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
 `
 
     let completeFlag = false;
@@ -30,7 +30,7 @@ tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
         try{
             await runCommandRemote(commands,conn, async () => {
                 console.log("**************************")
-                console.log("Finished updating security configuration :) Downloading keys then cleaning up")
+                console.log("Finished updating security configuration :) Waiting so I have time to download keys then cleaning up")
                 console.log("**************************")
                 await downloadFile(path.join(__dirname,'../../keys/',`${sshConfig.host}.log`), `./${sshConfig.host}.log`, sshConfig)
                 // await downloadFile(path.join(__dirname,'../../keys/',`${sshConfig.host}-full.log`), "/tmp/linux_init_harden_v1.0.log",sshConfig)
@@ -62,7 +62,7 @@ tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
                             console.log(e);
                         }
                     }).connect(sshConfig)
-                },3000) // Wait for 3 seconds so server has time to restart
+                },15000) // Wait for 3 seconds so server has time to restart
             });
         }catch(e){
             console.log(e);

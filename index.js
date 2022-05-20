@@ -26,32 +26,21 @@ const setupHELKServer = require('./templates/HELK/helk');
 
 const { createMasterKeys, encryptFile, decryptFile } = require('./utils/index');
 
-const {spawnShellRemote, pullKeyValuesFromLogFile, pullKeyValuesFromLogString} = require('./helpers');
+const {spawnShellRemote, pullKeyValuesFromLogFile, pullKeyValuesFromLogString, spawnShellandRunCommand} = require('./helpers');
 
 
-const serverHost = 'xxx.xxx.xxx.xxx';
+const serverHost = '66.29.157.31';
 const masterKeyRootPath =  path.join(__dirname,'keys');
 const masterKeyFilePath = path.join(masterKeyRootPath, 'mastamane.prv.pem');
+const encryptedKeyPath =  path.join(masterKeyRootPath,'mastafilekey');
 
-const encryptedKeyPath =  path.join(__dirname,'keys','key77');
-
-// createMasterKeys('mastamane', masterKeyRootPath, 'superdupersecretkeybitchaz', encryptedKeyPath )
-
-// Initial Config used on new droplets 
-// let sshConfig1 = {
-//     host: serverHost,
-//     port: 22,
-//     username: 'root',
-//     // password: process.env.INITIAL_CONFIG_PASS,
-//     privateKey: fs.readFileSync(process.env.INITIAL_CONFIG_KEY_PATH, 'utf8'),
-//     passphrase: process.env.INITIAL_CONFIG_KEY_PASSPHRASE, 
-//   }
-// hardenServer(sshConfig1, 'k0a', masterKeyFilePath, encryptedKeyPath);
-
+// // // Pulls updated config from hardened droplets 
 const logString = decryptFile(`./keys/${serverHost}.log-encrypted`, masterKeyFilePath,encryptedKeyPath, false, './clean')
-// // Pulls updated config from hardened droplets 
+// console.log(logString);
 const serverCreds = pullKeyValuesFromLogString(logString)
-console.log(serverCreds)
+// console.log(serverCreds);
+// console.log(`\nUsername: root\nPassword: ${serverCreds.rootPass}\n`)
+console.log(`\nUsername: ${serverCreds.user}\nPassword: ${serverCreds.pass}\n`)
 let sshConfig = {
     host: serverHost,
     username: serverCreds.user,
@@ -60,18 +49,26 @@ let sshConfig = {
     // `passphrase` only required for encrypted keys
     passphrase: serverCreds.sshKeyPass,
   }
-setupHELKServer(sshConfig);
+// setupHELKServer(sshConfig);
 // setupSnipeItServer(sshConfig);
 // setupWazuh(sshConfig);
 // deployWazuhAgent(sshConfig,'x.x.x.x','wazuhUser','wasuhPassword');
 // setupOpenVpn(sshConfig)
-// setupNodeRedServer(sshConfig, "1880","katalystintegrations.com","dj0759", "node-red-password", true);
+setupNodeRedServer(sshConfig, "1880","kpitboard.xyz","dj0759", "89LBlUj(us@ymLbT+xWE", true);
 
+// GITEA
+// setupGiteaServer(sshConfig);
+// backupGiteaServer(sshConfig);
+// setupIVREServer(sshConfig);
 // let reactEnvFile = `REACT_APP_NODE_KEY=${process.env.REACT_APP_NODE_KEY}
 // GENERATE_SOURCEMAP=false
 // PROD_URI=https://kp01-01.com`;
 // setupReactAppHardened(sshConfig, "80","kp01-01.com",reactEnvFile, path.join(__dirname, 'app'));
-
+// spawnShellandRunCommand('sudo cat /home/k0a/.pm2/logs/node-red-out.log', sshConfig)
+// spawnShellandRunCommand('sudo reboot', sshConfig)
+// spawnShellandRunCommand('ls /root/.pm2/logs | grep node', sshConfig)
+// spawnShellandRunCommand('cd /root/.node-red && node-red && /usr/bin/bash', sshConfig)
+// spawnShellandRunCommand('sudo su && cd /root/.node-red && /usr/bin/bash', sshConfig)
 // const conn2 = new Client();
 // conn2.on('ready', () => {
 //     // Cleanup
