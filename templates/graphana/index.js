@@ -7,14 +7,6 @@ const {Client} = require('ssh2')
 // https://github.com/nextcloud-snap/nextcloud-snap
 // ***********************************************************************************
 
-
-//   let sshConfig = {
-//     host: '192.168.1.81',
-//     port: 22,
-//     username: 'ubuntu',
-//     password: 'Smile0759'
-//   }
-
 //"**************************"
 // Custom Install Script
 // Installs the services all at once with minimal user interaction
@@ -28,7 +20,7 @@ sudo ./install.sh
     const conn = new Client();
     conn.on('ready', async () => {
         console.log("**************************")
-        console.log("Uploading Install Script for IVRE scanner")
+        console.log("Uploading Install Script for graphana data vis")
         console.log("**************************")
         await uploadFile(path.join(__dirname,'config','install.sh'),`./install.sh`,sshConfig)
         try{

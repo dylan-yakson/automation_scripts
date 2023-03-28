@@ -56,11 +56,11 @@
            type: "credentials",
            users: [    {
                             username: "dj0759",
-                            password: "$2a$08$W2yBya7IYXDF/Zafc8L1EOhcE7UVSDsYqERBiYDqJ5CQjDeZJbkLq",
+                            password: "$2a$08$pncsW3Sqv4rhpDjW0EI5c.cKCPki5CSc2uB1QTiHpNuhj2MXcjxrC",
                             permissions: "*"},
                         {
                             username: "admin",
-                            password: "$2a$08$W2yBya7IYXDF/Zafc8L1EOhcE7UVSDsYqERBiYDqJ5CQjDeZJbkLq",
+                            password: "$2a$08$pncsW3Sqv4rhpDjW0EI5c.cKCPki5CSc2uB1QTiHpNuhj2MXcjxrC",
                             permissions: "read"
                         },
             ]
@@ -84,8 +84,8 @@
              // This function should return the options object, or a Promise
              // that resolves to the options object
              return {
-                 key: require("fs").readFileSync('/etc/letsencrypt/live/www.kpitboard.xyz/privkey.pem'),
-                 cert: require("fs").readFileSync('/etc/letsencrypt/live/www.kpitboard.xyz/fullchain.pem')
+                 key: require("fs").readFileSync('/etc/letsencrypt/live/www.kpdeploy.com/privkey.pem'),
+                 cert: require("fs").readFileSync('/etc/letsencrypt/live/www.kpdeploy.com/fullchain.pem')
              }
          },
     

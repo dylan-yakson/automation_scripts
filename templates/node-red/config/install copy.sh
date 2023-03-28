@@ -100,9 +100,8 @@ ip4=$(/sbin/ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
 
 
 # Install NPM 
-# curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
-# V14 is the only node version I got this to work on. Need to update this or set definitions based on react project?
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_17.x | sudo -E bash -
+# curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install gcc g++ make
 sudo apt-get install -y nodejs
 
@@ -116,7 +115,10 @@ cd ~
 # sudo chmod +x ./node-red-install.sh
 # sudo ./node-red-install.sh --confirm-root --confirm-install --restart --skip-pi --update-nodes
 # sudo bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered) --confirm-root   
-sudo npm install -g --unsafe-perm node-red #node-red-admin
+# sudo npm install -g --unsafe-perm node-red #node-red-admin
+sudo bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+sudo apt install build-essential
+
 # sudo npm install -g --unsafe-perm node-red-admin
 sudo npm install -g pm2
 # Install Node-Red Modules
@@ -147,4 +149,5 @@ sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 # Public cert with domain name & Autoconfigure NGINX
 # sudo certbot --nginx -d 123leave.com   -d www.123leave.com 
+
 

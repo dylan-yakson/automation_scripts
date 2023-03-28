@@ -39,7 +39,8 @@ sudo cp -r ./build/. /var/www/html
 sudo service nginx reload
 sudo service nginx restart
 cd ~
-sudo certbot --nginx --agree-tos --hsts --staple-ocsp --must-staple -d www.${siteName},${siteName} --email dylan.jackson@kppetro.com
+sudo certbot --nginx --agree-tos --hsts --staple-ocsp -d www.${siteName},${siteName} --email dylan.jackson@kppetro.com
+# sudo certbot --nginx --agree-tos --hsts --staple-ocsp --must-staple -d www.${siteName},${siteName} --email dylan.jackson@kppetro.com
 sudo service nginx reload
 sudo service nginx restart`
 

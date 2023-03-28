@@ -20,17 +20,28 @@ const {Client} = require('ssh2')
 // Installs the services all at once with minimal user interaction
 //"**************************"
 
-const setupIntelOwlServer = (sshConfig) => {
+const setupSpiderFoot = (sshConfig, user, password) => {
 let commands = `
-sudo chmod +x ./install.sh
-sudo ./install.sh
+sudo apt-get update -y 
+sudo apt-get upgrade -y
+sudo apt-get install python3 -y
+sudo apt-get install python3-pip -y 
+git clone https://github.com/smicallef/spiderfoot.git
+cd spiderfoot
+sudo python3 -m pip install -r requirements.txt
+sudo python3 ./sf.py -l 0.0.0.0:5001 
+sudo mkdir /root/.spiderfoot
+sudo tee -a /root/.spiderfoot/passwd <<EOF
+${user}:${password}
+EOF
+sudo python3 ./sf.py -l 0.0.0.0:5001 
 `
     const conn = new Client();
     conn.on('ready', async () => {
         console.log("**************************")
-        console.log("Uploading Install Script for IVRE scanner")
+        console.log("Uploading Install Script for superset data vis")
         console.log("**************************")
-        await uploadFile(path.join(__dirname,'config','install.sh'),`./install.sh`,sshConfig)
+        // await uploadFile(path.join(__dirname,'config','install.sh'),`./install.sh`,sshConfig)
         try{
             await runCommandRemote(commands,conn, async () => {
                 console.log("**************************")
@@ -48,4 +59,4 @@ sudo ./install.sh
     
     }).connect(sshConfig)
 }
-module.exports = setupIntelOwlServer;
+module.exports = setupSpiderFoot;

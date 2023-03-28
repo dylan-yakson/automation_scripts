@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {runCommandRemote,uploadFile,runCommandLocal,spawnShellRemote,runInteractiveCommandRemote, downloadFile} = require('../../helpers')
+const {runCommandRemote,spawnShellRemoteTest, uploadFile,runCommandLocal,spawnShellRemote,runInteractiveCommandRemote, downloadFile} = require('../../helpers')
 const {Client} = require('ssh2')
 // ***********************************************************************************
 // Meant to be ran on Ubuntu 20.04 LTS Arm64
@@ -39,10 +39,7 @@ sudo ./install.sh
                 // await downloadFile('./AppTest1.ovpn','/root/AppTest1.ovpn',sshConfig)
                 await conn.end()
                 await setTimeout(() => {
-                    const conn2 = new Client();
-                    conn2.on('ready', () => {
-                        spawnShellRemote(conn2);
-                    }).connect(sshConfig)
+                    spawnShellRemoteTest(sshConfig);
                 },5000) // Wait for 5 seconds then remote in
             });
         }catch(e){

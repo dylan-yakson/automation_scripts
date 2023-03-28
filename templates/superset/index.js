@@ -20,7 +20,7 @@ const {Client} = require('ssh2')
 // Installs the services all at once with minimal user interaction
 //"**************************"
 
-const setupIntelOwlServer = (sshConfig) => {
+const setupSupersetServer = (sshConfig) => {
 let commands = `
 sudo chmod +x ./install.sh
 sudo ./install.sh
@@ -28,7 +28,7 @@ sudo ./install.sh
     const conn = new Client();
     conn.on('ready', async () => {
         console.log("**************************")
-        console.log("Uploading Install Script for IVRE scanner")
+        console.log("Uploading Install Script for superset data vis")
         console.log("**************************")
         await uploadFile(path.join(__dirname,'config','install.sh'),`./install.sh`,sshConfig)
         try{
@@ -48,4 +48,4 @@ sudo ./install.sh
     
     }).connect(sshConfig)
 }
-module.exports = setupIntelOwlServer;
+module.exports = setupSupersetServer;

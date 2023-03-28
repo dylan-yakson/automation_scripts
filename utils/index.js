@@ -26,12 +26,33 @@ const decryptFile = (filePath, rsaPrivKey, encryptedKeyPath = './keys/key1a', ne
     }
     return test
 }
+const decryptFileWithPhrase = (filePath, passphrase, newFile=false, newFilePath='./keys/decryptedFile') => {
+    let ENC_KEY = passphrase;
+    ENC_KEY = crypto.createHash('sha512').update(String(ENC_KEY)).digest('base64').substr(0, 32);
+    let test = decryptAES(fs.readFileSync(filePath, 'utf-8'), ENC_KEY);
+    if(newFile){
+        fs.writeFileSync(newFilePath, test, 'utf8')
+    }
+    return test
+}
+const encryptFileWithPhrase = (filePath, passphrase, newFile=false, newFilePath='./keys/decryptedFile') => {
+    let ENC_KEY = passphrase;
+    ENC_KEY = crypto.createHash('sha512').update(String(ENC_KEY)).digest('base64').substr(0, 32);
+
+    let test = encryptAES(fs.readFileSync(filePath, 'utf-8'), ENC_KEY);
+    if(newFile){
+        fs.writeFileSync(newFilePath, test, 'utf8')
+    }
+    return test
+}
 // let filePath = path.join(__dirname,'164.92.223.219.log');
 // let encryptedFilePath = path.join(__dirname,'164.92.223.219.log');
 // encryptFile(filePath, keys.privKey.path,encryptedFilePath);
 // decryptFile(encryptedFilePath, keys.privKey.path, false,  './clean')
 
 module.exports = {
+    encryptFileWithPhrase,
+    decryptFileWithPhrase,
     createMasterKeys,
     encryptFile,
     decryptFile

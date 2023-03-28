@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {runCommandRemote,uploadFile,runCommandLocal,spawnShellRemote,runInteractiveCommandRemote,pullGitRepo,zipFolder, deleteIfExists} = require('../../helpers')
+const {runCommandRemote,uploadFile,spawnShellRemoteTest, runCommandLocal,spawnShellRemote,runInteractiveCommandRemote,pullGitRepo,zipFolder, deleteIfExists} = require('../../helpers')
 const {Client} = require('ssh2')
 const {genNodeConfig} = require('./generateNodeConfig');
 const {generateNginxConfig} = require('./generateNginxConfig');
@@ -15,10 +15,10 @@ sudo chmod +x ./install.sh
 sudo ./install.sh
 sudo pm2 stop 0 
 # # HTTPS CERT
-sudo certbot --nginx --agree-tos --no-eff-email --hsts --staple-ocsp --must-staple -d www.${siteName},${siteName} --email dylan.jackson@kppetro.com
+sudo certbot --nginx --agree-tos --no-eff-email --hsts --staple-ocsp -d www.${siteName},${siteName} --email dylan.jackson@kppetro.com
 sudo ufw allow ${port}
 sudo cp ~/nodered.conf /etc/nginx/sites-available/default
-sudo chown ${sshConfig.username}:${sshConfig.username}  /root -R
+sudo chown ${sshConfig.username}:${sshConfig.username}  /root/ -R
 sudo cp ~/settings.js /root/.node-red/settings.js 
 sudo pm2 start 0
 # # Install Node-Red Modules
@@ -28,10 +28,9 @@ sudo npm uninstall mongodb
 sudo npm uninstall node-red-mongodb
 sudo npm uninstall -g node-red-mongodb 
 sudo npm install mongodb
-sudo npm install bcrypt 
-sudo npm install node-red-node-mongodb --unsafe-perm --save --save-dev
-sudo npm install node-red-node-email --unsafe-perm --save --save-dev
-sudo npm install pdfkit --unsafe-perm --save --save-dev
+sudo npm install node-red-node-mongodb --unsafe-perm --save
+sudo npm install node-red-node-email --unsafe-perm --save 
+sudo npm install pdfkit --unsafe-perm --save 
 sudo service nginx start
 sudo pm2 restart 0
 #sudo reboot
@@ -63,13 +62,10 @@ sudo pm2 restart 0
 
                 if(popShell){
                     console.log("Waiting 20 seconds and popping a shell")
+                    
                     setTimeout(() => {
-                        const conn2 = new Client();
-                        conn2.on('ready', () => {
-                            // Cleanup
-                            spawnShellRemote(conn2);
-                        }).connect(sshConfig)
-                    },10000); // Wait for 5 seconds so server has time to digest
+                        spawnShellRemoteTest(sshConfig)
+                    },5000); // Wait for 5 seconds so server has time to digest
                 }
             });
         }catch(e){

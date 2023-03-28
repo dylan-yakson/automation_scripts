@@ -1,21 +1,20 @@
 const fs = require('fs');
 const path = require('path');
-const {runCommandRemote,spawnShellRemoteTest, uploadFile,runCommandLocal,spawnShellRemote,runInteractiveCommandRemote} = require('../../helpers')
+const {runCommandRemote,uploadFile,runCommandLocal,spawnShellRemote,runInteractiveCommandRemote} = require('../../helpers')
 const {Client} = require('ssh2')
 
-const setupHELKServer = (sshConfig) => {
-    let commands = `
-sudo apt install git
-git clone https://github.com/Cyb3rWard0g/HELK.git
-cd HELK/docker
-sudo ./helk_install.sh
+const setupKaliServer = (sshConfig) => {
+let commands = `
+sudo chmod +x ./install.sh
+sudo ./install.sh
 `
+    let completeFlag = false;
     const conn = new Client();
     conn.on('ready', async () => {
         console.log("**************************")
-        console.log("Uploading Install Script for HELK4")
+        console.log("Uploading Install Script for kali")
         console.log("**************************")
-        // await uploadFile(path.join(__dirname,'config','gitea.sh'),`./install.sh`,sshConfig)
+        await uploadFile(path.join(__dirname,'config','install.sh'),`./install.sh`,sshConfig)
     
     
         // await uploadFile(path.join(__dirname,'nc_install_custom.sh'),`./nc_install_custom.sh`,sshConfig)
@@ -26,8 +25,11 @@ sudo ./helk_install.sh
                 console.log("**************************")
                 conn.end()
                 setTimeout(() => {
-                    spawnShellRemoteTest(sshConfig)
-                },10000) // Wait for 20 seconds so server has time to restart
+                    const conn2 = new Client();
+                    conn2.on('ready', () => {
+                        spawnShellRemote(conn2);
+                    }).connect(sshConfig)
+                },10000) // Wait for 10 seconds so server has time to restart
             });
         }catch(e){
             console.log(e);
@@ -35,5 +37,6 @@ sudo ./helk_install.sh
     
     }).connect(sshConfig)
 }
+module.exports = setupKaliServer;
 
-module.exports = setupHELKServer;
+// remoteIntoServer(sshConfig);

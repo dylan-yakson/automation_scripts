@@ -11,7 +11,11 @@ const { encryptFile, decryptFile } = require('../../utils/index')
 
 
 const hardenServer = (sshConfig, username, masterKeyPath, encryptedKeyPath) => {
+    // TODO: Move to script or move script sections to variables. Not both.
     let commands = `
+sudo apt-get -o DPkg::Lock::Timeout=60 install -y curl screen ufw fail2ban
+sudo apt-get -o DPkg::Lock::Timeout=60 update -y  
+sudo apt-get -o DPkg::Lock::Timeout=60 upgrade -y
 sudo chmod +x ./deploy.sh 
 sudo ./deploy.sh -u ${username}
 sudo tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
@@ -62,7 +66,7 @@ sudo tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
                             console.log(e);
                         }
                     }).connect(sshConfig)
-                },15000) // Wait for 3 seconds so server has time to restart
+                },5000) // Wait for 3 seconds so server has time to restart
             });
         }catch(e){
             console.log(e);
@@ -70,11 +74,6 @@ sudo tail -n 50 /tmp/linux_init_harden_v1.0.log > ./${sshConfig.host}.log
     
     }).connect(sshConfig)
 }
-// let sshConfig = {
-//     host: '192.168.1.79',
-//     port: 22,
-//     username: 'ubuntu',
-//     password: 'Smile0759'
-//   }
+
 module.exports = hardenServer;
 // remoteIntoServer(sshConfig);

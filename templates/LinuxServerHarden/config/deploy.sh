@@ -676,7 +676,12 @@ function reset_exit_code() {
 function update_step_status() {
     local event
     event=$(get_step_var_from_stepname "$1")
-    eval "$event"="$2"
+    if [[ -z ${event+x} ]]; then 
+        echo "$event $1 not set"
+        return
+    else 
+        eval "$event"="$2"
+    fi
 }
 
 function get_step_status() {
