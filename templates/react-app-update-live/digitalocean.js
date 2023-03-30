@@ -10,10 +10,10 @@ const updateReactServer = (sshConfig, port, siteName, reactenvFile=`GENERATE_SOU
     reactenvFile = reactEnvFile + `\nREACT_MSAL_REDIRECT_URL=https://${siteName}`
     let commands = `
 cd ~
-sudo rm -rf ./app
-sudo unzip ./app.zip -d ./app
-sudo cp ./.env ./app/.env
-cd ./app
+sudo rm -rf ${reactAppPath}
+sudo unzip ${reactAppPath}.zip -d ./app
+sudo cp ./.env ${reactAppPath}/.env
+cd ${reactAppPath}
 sudo npm i -g yarn
 sudo yarn
 sudo yarn run build 
