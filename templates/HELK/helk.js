@@ -8,6 +8,7 @@ const setupHELKServer = (sshConfig) => {
 sudo apt install git
 git clone https://github.com/Cyb3rWard0g/HELK.git
 cd HELK/docker
+sudo chmod +x ./helk_install.sh
 sudo ./helk_install.sh
 `
     const conn = new Client();
