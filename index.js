@@ -37,15 +37,6 @@ const masterKeyRootPath =  path.join(__dirname,'keys');
 const masterKeyFilePath = path.join(masterKeyRootPath, 'mastamane.prv.pem');
 const encryptedKeyPath =  path.join(masterKeyRootPath,'mastafilekey');
 
-// // // Pulls updated config from hardened droplets 
-const logString = decryptFile(`./keys/${serverHost}.log-encrypted`, masterKeyFilePath,encryptedKeyPath, false, './clean')
-// console.log(logString);
-const serverCreds = pullKeyValuesFromLogString(logString)
-// console.log(serverCreds);
-
-// console.log(`\nUsername: root\nPassword: ${serverCreds.rootPass}\n`)
-console.log(serverHost);
-console.log(`\nUsername: ${serverCreds.user}\nPassword: ${serverCreds.pass}\n`)
 let sshConfig = {
     host: serverHost,
     username: serverCreds.user,
@@ -71,6 +62,5 @@ spawnShellRemoteTest(sshConfig)
 // setupIVREServer(sshConfig);
 // let reactEnvFile = `REACT_APP_NODE_KEY=${process.env.REACT_APP_NODE_KEY}
 // GENERATE_SOURCEMAP=false
-// PROD_URI=https://kp01-01.com`;
-// setupReactAppHardened(sshConfig, "80","kp01-01.com",reactEnvFile, path.join(__dirname, 'app'));
-// spawnShellandRunCommand('sudo cat /home/k0a/.pm2/logs/node-red-out.log', sshConfig)
+
+
