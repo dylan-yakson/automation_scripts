@@ -32,7 +32,7 @@ const { createMasterKeys, encryptFile, decryptFile } = require('./utils/index');
 const {spawnShellRemote, spawnShellRemoteTest, uploadFile, pullKeyValuesFromLogFile, pullKeyValuesFromLogString, spawnShellandRunCommand, uploadFileSync} = require('./helpers');
 
 
-const serverHost = '159.223.183.216'; //'164.92.111.106' //process.env.SERVER_IP;
+const serverHost = '1192.168.1.3';  //process.env.SERVER_IP;
 const masterKeyRootPath =  path.join(__dirname,'keys');
 const masterKeyFilePath = path.join(masterKeyRootPath, 'mastamane.prv.pem');
 const encryptedKeyPath =  path.join(masterKeyRootPath,'mastafilekey');
