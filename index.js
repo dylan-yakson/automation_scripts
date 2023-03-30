@@ -53,7 +53,7 @@ spawnShellRemoteTest(sshConfig)
 // setupSnipeItServer(sshConfig);
 // setupWazuh(sshConfig);
 // deployWazuhAgent(sshConfig,'x.x.x.x','wazuhUser','wasuhPassword');
-// setupNodeRedServer(sshConfig, "1880","kpdeploy.com","dj0759", "node-red-pass", true);
+// setupNodeRedServer(sshConfig, "1880","honeypot02jaja.com","dj0759", "node-red-pass", true);
 // setupHiveServer(sshConfig);
 // setupSupersetServer(sshConfig);
 // setupSpiderFoot(sshConfig, "dj0759", "boopadupabitchassssssss")
