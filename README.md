@@ -1,7 +1,7 @@
 # automation_scripts
 sample scripts I use to automate server deployment and react projects. Super messy and bleh. Will update if I have time maybe idk. Enjoy ;)
 
-They way it works is it generates an rsa key encrypted with AES (shouldn't use rsa LOL.. or aes really... - follow nist) , and sets up a whole bunch of stuff on remote servers, 
+They way it works is it generates an rsa key encrypted with AES (shouldn't use rsa LOL.. or aes really... - follow nist) , and sets up a whole bunch of stuff on remote servers via ssh, 
 
 while encrypting the ssh information and keys to the newly setup server (whatever service it may be) with the originally generated key so everything is encrypted at rest. Idea is to store the OG key on a thumb drive so even if someone gets access to your machine they dont have the server information. Useful for setting up numerous servers. 
 
